@@ -1,21 +1,31 @@
-name: ci-pipeline
-on:
+#automation platform-> 1) build 2)unit tests test 3) static code analysis (linting) 4) deploy
+#workflow is sequence of activities, is a YAML file which will be parse by github actions
+name: ci-workflow
+on: 
   push:
-    branches:
-      - develop
+    branches: #source branches
+      - develop 
   pull_request:
-    branches:
-      - develop
-jobs:
+    branches: #target branches
+      - develop 
+jobs: #real objective of workflow, every job will be running on different runner, can run parallel or sequence, dependencies matters.  on which kind of machinw it will run. 
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: welcome sai
-        run: echo "welcome"
-      - name: check
-        uses: actions/checkout@v4
-      - name: repo
-        run: |
-          echo "reposiro name: ${{github.repository}}"
-          git branch
-          git log  
+      - name: welcome steps
+        run: echo "Welcome to yhe Github Actions"   #run tells its a shell command
+      - name: Clone Repo  #jobs and repo working on seperate cloud, job need to clone it to access it
+        uses: actions/checkout@v4 
+      - name: Repository Information
+        run: | #expressin syntax -> ${{github.repository}}, expression will always produce value based upon some operation, action engine will evaluate it | github.repository-> context
+          echo "Follwoing is the information abput cloned Repo"
+          echo "Repository Name : ${{github.repository}}"
+          echo "Type of Event:  ${{github.event_name}}"           
+          echo "Repository Owner : ${{github.owner}}"
+          git -v
+          git branch 
+          git log
+          git config --local --list 
+# this all command will be send to runner where git already install
+    
+  
