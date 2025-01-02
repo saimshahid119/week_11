@@ -1,0 +1,21 @@
+name: ci-pipeline
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: welcome sai
+        run: echo "welcome"
+      - name: check
+        uses: actions/checkout@v4
+      - name: repo
+        run: |
+          echo "repository name: ${{github.repository}}"
+          git branch
+          git log  
